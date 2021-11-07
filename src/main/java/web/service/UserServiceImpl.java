@@ -45,12 +45,10 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userDao
                 .getUserByUsername(user.getUsername());
         if (!userOptional.isPresent()) {
-                //>>>------------------------- Refactor it!
                 Set<Role> roles = new HashSet<>();
                 roles.add(new Role("ROLE_USER"));
                 user.setRoles(roles);
                 user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-                //<<<-------------------------
                 userDao.createUser(user);
         }
     }
