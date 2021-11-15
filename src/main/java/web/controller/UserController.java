@@ -38,7 +38,8 @@ public class UserController {
 	public String getUserPage(ModelMap modelmap,
 							  Principal principal) {
 		modelmap.addAttribute("name",
-				userService.getUserByEmail(principal.getName()).get());
+				userService.getUserByEmail(principal.getName())
+		);
 		return "user";
 	}
 }

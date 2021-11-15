@@ -1,7 +1,6 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,8 +8,6 @@ import web.dao.UserDao;
 import web.model.User;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,11 +29,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        return userDao.getUserById(id).orElse(null);
+        return userDao.getUserById(id);
     }
 
     @Override
-    public Optional<User> getUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         return userDao.getUserByEmail(email);
     }
 
@@ -51,25 +48,21 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void updateUser(User user) {
-
+        if(user.getPassword().equals("")) {
+            String password = userDao.getUserById(user.getId()).getPassword();
+            user.setPassword(password);
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         userDao.updateUser(user);
     }
 
     @Transactional
     @Override
     public void deleteUser(Long userId) {
-        final Optional<User> userOptional = userDao.getUserById(userId);
-        userOptional.ifPresent(userDao::deleteUser);
+        final User user = userDao.getUserById(userId);
+        userDao.deleteUser(user);
     }
 
-    @Override
-    public Set<String> getRolesFromUser(Long userId) {
-        final Optional<User> userOptional = userDao.getUserById(userId);
-        if (userOptional.isPresent()) {
-            User u = userOptional.get();
-            return AuthorityUtils.authorityListToSet(u.getAuthorities());
-        }
-        return null;
-    }
 }
 

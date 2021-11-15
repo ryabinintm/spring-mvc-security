@@ -36,10 +36,7 @@ public class AdminController {
     }
 
     @GetMapping(path = "new")
-    public String getNewUser(@ModelAttribute("user") User user,
-                             Model model) {
-        List<String> roles = Arrays.asList("ROLE_USER", "ROLE_ADMIN");
-        model.addAttribute("roles", roles);
+    public String getNewUser(@ModelAttribute("user") User user) {
         return "users/create";
     }
 

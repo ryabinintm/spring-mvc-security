@@ -8,8 +8,8 @@ import java.util.Optional;
 public interface UserDao {
 
     List<User> getAllUsers();
-    Optional<User> getUserById(Long id);
-    Optional<User> getUserByEmail(String email);
+    User getUserById(Long id);
+    User getUserByEmail(String email);
     void createUser(User user);
     void updateUser(User user);
     void deleteUser(User user);

@@ -12,7 +12,7 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    Optional<User> getUserByEmail(String email);
+    User getUserByEmail(String email);
 
     void createUser(User user);
 
@@ -20,5 +20,4 @@ public interface UserService {
 
     void deleteUser(Long id);
 
-    Set<String> getRolesFromUser(Long id);
 }

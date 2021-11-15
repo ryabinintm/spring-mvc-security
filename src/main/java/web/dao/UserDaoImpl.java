@@ -21,18 +21,16 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> getUserById(Long id) {
-        return Optional.of(
-                entityManager.find(User.class, id)
-        );
+    public User getUserById(Long id) {
+        return entityManager.find(User.class, id);
     }
 
     @Override
-    public Optional<User> getUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         String phql = "select u from User u where u.email = :email";
         return entityManager.createQuery(phql, User.class)
                 .setParameter("email", email)
-                .getResultList().stream().findAny();
+                .getResultList().stream().findAny().orElse(null);
     }
 
     @Override
