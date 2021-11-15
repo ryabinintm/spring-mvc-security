@@ -1,15 +1,12 @@
 package web.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import web.model.Role;
 import web.model.User;
-import web.service.RoleService;
 import web.service.UserService;
 
 import javax.annotation.PostConstruct;
-import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -18,13 +15,10 @@ import java.util.stream.Stream;
 public class DatabaseInitialization {
 
     public final UserService userService;
-    public final RoleService roleService;
 
     @Autowired
-    public DatabaseInitialization(UserService userService,
-                                  RoleService roleService) {
+    public DatabaseInitialization(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
     }
 
     @PostConstruct
