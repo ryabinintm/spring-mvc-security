@@ -13,36 +13,33 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String role;
+    private String name;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "roles_id"),
-            inverseJoinColumns = @JoinColumn(name = "users_id"))
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
     public Role() {
     }
 
-    public Role(String role) {
-        this.role = role;
+    public Role(String name) {
+        this.name = name;
     }
 
     public Role(Long id, String role) {
         this.id = id;
-        this.role = role;
+        this.name = role;
     }
 
     public String getRole() {
-        return role;
+        return name;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(String name) {
+        this.name = name;
     }
 
     @Override
     public String getAuthority() {
-        return role;
+        return name;
     }
 }

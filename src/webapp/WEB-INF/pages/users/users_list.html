@@ -7,7 +7,8 @@
 <body>
     <div>
         <th:block th:each="user : ${users}">
-            <a th:href="@{/admin/users/{id}(id=${user.id})}" th:text="${user}">User</a>
+            <a th:href="@{/admin/users/{id}(id=${user.id})}" th:text="${user}"></a>
+            <span th:each="role : ${user.getAuthorities()}" th:text="${role.getAuthority() + ' '}"></span>
             <br>
         </th:block>
         <hr>

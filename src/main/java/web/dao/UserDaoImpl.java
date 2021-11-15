@@ -28,10 +28,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> getUserByUsername(String username) {
-        String phql = "select u from User u where u.username = :username";
+    public Optional<User> getUserByEmail(String email) {
+        String phql = "select u from User u where u.email = :email";
         return entityManager.createQuery(phql, User.class)
-                .setParameter("username", username)
+                .setParameter("email", email)
                 .getResultList().stream().findAny();
     }
 
@@ -41,7 +41,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void updateUser(Long id, User user) {
+    public void updateUser(User user) {
         entityManager.merge(user);
         entityManager.flush();
     }

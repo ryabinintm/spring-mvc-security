@@ -21,18 +21,16 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "age")
+    private int age;
+
     @Column(name = "email")
     private String email;
 
-    private String username;
-
+    @Column(name = "password")
     private String password;
 
-    private int age;
-
-    @ManyToMany(
-            cascade = {CascadeType.ALL, CascadeType.PERSIST},
-            fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "users_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
@@ -41,10 +39,16 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email) {
+    public User(String firstName,
+                String lastName,
+                int age,
+                String email,
+                String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
+        this.age = age;
     }
 
     public Long getId() {
@@ -71,6 +75,14 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -79,20 +91,8 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public Set<Role> getRoles() {
@@ -115,7 +115,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override

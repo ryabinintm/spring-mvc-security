@@ -8,22 +8,25 @@
     <div>
         <form th:method="PATCH" th:action="@{/admin/users/{id}(id=${user.id})}" th:object="${user}">
             <label for="first">Firstname</label>
-            <input type="text" th:field="*{firstName}" id="first"/>
+            <input type="text" th:field="*{firstName}" id="first" />
             <br>
             <label for="last">Lastname</label>
-            <input type="text" th:field="*{lastName}" id="last"/>
+            <input type="text" th:field="*{lastName}" id="last" />
             <br>
             <label for="mail">Email</label>
-            <input type="text" th:field="*{email}" id="mail"/>
+            <input type="text" th:field="*{email}" id="mail" />
             <br>
-            <label for="username">Username</label>
-            <input type="text" th:field="*{username}" id="username"/>
+            <label for="age">Age</label>
+            <input type="text" th:field="*{age}" id="age" />
             <br>
-            <!--<input type="checkbox" th:field="*{roles}" id="admin">
-            <label for="admin">Admin</label>-->
-            <th:block th:each="role : ${user_roles}">
-                <p th:text="${role}"/>
-            </th:block>
+            <label for="password">Password</label>
+            <input type="text" th:field="*{password}" id="password" placeholder="Password" />
+            <br>
+            <br>
+            <input id="admin-id" type="checkbox" name="roles" th:value="ROLE_ADMIN" />
+            <label for="admin-id">ADMIN</label>
+            <input id="user-id" type="checkbox" name="roles" th:value="ROLE_USER" />
+            <label for="user-id">USER</label>
             <br>
             <input type="submit" value="Update">
         </form>

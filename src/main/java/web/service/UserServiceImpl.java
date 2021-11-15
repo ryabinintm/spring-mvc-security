@@ -2,14 +2,12 @@ package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
-import web.model.Role;
 import web.model.User;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -18,10 +16,13 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao,
+                           PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -35,38 +36,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserByUsername(String name) {
-        return userDao.getUserByUsername(name);
+    public Optional<User> getUserByEmail(String email) {
+        return userDao.getUserByEmail(email);
     }
 
     @Transactional
     @Override
     public void createUser(User user) {
-        Optional<User> userOptional = userDao
-                .getUserByUsername(user.getUsername());
-        if (!userOptional.isPresent()) {
-                Set<Role> roles = new HashSet<>();
-                roles.add(new Role("ROLE_USER"));
-                user.setRoles(roles);
-                user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-                userDao.createUser(user);
-        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userDao.createUser(user);
     }
 
 
     @Transactional
     @Override
-    public void updateUser(Long userId, User user) {
-        final Optional<User> userOptional1 = userDao.getUserById(userId);
-        final Optional<User> userOptional2 = userDao.
-                getUserByUsername(user.getUsername());
-        if (userOptional1.isPresent()) {
-            String username1 = userOptional1.get().getUsername();
-            String username2 = user.getUsername();
-            if (username1.equals(username2) || !userOptional2.isPresent()) {
-                userDao.updateUser(userId, user);
-            }
-        }
+    public void updateUser(User user) {
+
+        userDao.updateUser(user);
     }
 
     @Transactional

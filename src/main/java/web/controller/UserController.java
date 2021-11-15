@@ -12,11 +12,11 @@ import java.util.List;
 
 @Controller
 @RequestMapping(path = "/")
-public class RoleController {
+public class UserController {
 
 	final UserService userService;
 
-	public RoleController(UserService userService) {
+	public UserController(UserService userService) {
 		this.userService = userService;
 	}
 
@@ -38,7 +38,7 @@ public class RoleController {
 	public String getUserPage(ModelMap modelmap,
 							  Principal principal) {
 		modelmap.addAttribute("name",
-				userService.getUserByUsername(principal.getName()).get());
+				userService.getUserByEmail(principal.getName()).get());
 		return "user";
 	}
 }

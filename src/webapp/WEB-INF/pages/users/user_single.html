@@ -6,7 +6,8 @@
 </head>
 <body>
     <div>
-        <p th:text="${user}"></p>
+        <p th:text="${user}">USER</p>
+        <p th:each="role : ${user.getAuthorities()}" th:text="${role.getAuthority().toString() + ' '}"></p>
         <hr>
         <a th:href="@{/admin/users/{id}/edit(id=${user.id})}">Edit</a>
         <form th:method="DELETE" th:action="@{/admin/users/{id}(id=${user.id})}">

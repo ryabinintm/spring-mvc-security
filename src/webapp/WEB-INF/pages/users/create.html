@@ -19,11 +19,14 @@
             <label for="age">Age</label>
             <input type="text" th:field="*{age}" id="age"/>
             <br>
-            <label for="username">Username</label>
-            <input type="text" th:field="*{username}" id="username"/>
-            <br>
             <label for="password">Password</label>
             <input type="text" th:field="*{password}" id="password"/>
+            <br>
+            <br>
+            <input id="admin-id" type="checkbox" name="roles" th:value="ROLE_ADMIN" />
+            <label for="admin-id">ADMIN</label>
+            <input id="user-id" type="checkbox" name="roles" th:value="ROLE_USER" />
+            <label for="user-id">USER</label>
             <br>
             <input type="submit" value="Create!">
         </form>
